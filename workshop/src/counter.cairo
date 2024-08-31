@@ -9,6 +9,7 @@ trait ICounter<TContractState> {
 pub mod Counter {
     use core::starknet::event::EventEmitter;
     use starknet::{get_caller_address, ContractAddress};
+    use kill_switch::{IKillSwitchDispatcher, IKillSwitchDispatcherTrait};
 
     #[storage]
     struct Storage {
@@ -43,8 +44,11 @@ pub mod Counter {
         }
 
         fn increase_counter(ref self: ContractState, _value: u32) {
-            self.counter.write(_value);
-            self.emit(Event::CounterIncreased(CounterIncreased{value: _value}));
+            let status: bool = IKillSwitchDispatcher {contract_address: self.kill_switch.read()}.is_active();
+            if status == false {
+                self.counter.write(_value);
+                self.emit(Event::CounterIncreased(CounterIncreased{value: _value}));
+            }
         }
     }
 }
