@@ -1,0 +1,1 @@
+{"version":1,"contracts":[{"id":"etes001cgrgim","package_name":"workshop","contract_name":"counter_contract","module_path":"workshop::counter::counter_contract","artifacts":{"sierra":"workshop_counter_contract.contract_class.json","casm":"workshop_counter_contract.compiled_contract_class.json"}}]}
