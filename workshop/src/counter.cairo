@@ -8,9 +8,12 @@ trait ICounter<TContractState> {
 #[starknet::contract]
 pub mod Counter {
     use core::starknet::event::EventEmitter;
-#[storage]
+    use starknet::{get_caller_address, ContractAddress};
+
+    #[storage]
     struct Storage {
-        counter: u32
+        counter: u32,
+        kill_switch: ContractAddress
     }
 
     // this event will emit whenever the state variable counter increases
@@ -28,8 +31,9 @@ pub mod Counter {
     }
 
     #[constructor]
-    fn constructor(ref self: ContractState, _counter: u32) {
+    fn constructor(ref self: ContractState, _counter: u32, _kill_switch: ContractAddress) {
         self.counter.write(_counter);
+        self.kill_switch.write(_kill_switch);
     }
 
     #[abi(embed_v0)]
