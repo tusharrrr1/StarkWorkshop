@@ -7,10 +7,12 @@ edition = "2023_01"
 
 [dependencies]
 starknet = ">=2.6.3"
+kill_switch = {git = "https://github.com/starknet-edu/kill-switch"}
 
 [[target.starknet-contract]]
 casm = true
 sierra = true
+build-external-contracts = ["kill_switch::KillSwitch"]
 
 [dev-dependencies]
 snforge_std = { git = "https://github.com/foundry-rs/starknet-foundry", tag = "v0.27.0" }
