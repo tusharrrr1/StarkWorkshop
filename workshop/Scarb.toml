@@ -8,6 +8,7 @@ edition = "2023_01"
 [dependencies]
 starknet = ">=2.6.3"
 kill_switch = {git = "https://github.com/starknet-edu/kill-switch"}
+openzeppelin = {git= "https://github.com/OpenZeppelin/cairo-contracts.git", tag = "v0.14.0"}
 
 [[target.starknet-contract]]
 casm = true
