@@ -43,10 +43,10 @@ use core::starknet::event::EventEmitter;
     }
 
     #[constructor]
-    fn constructor(ref self: ContractState, _counter: u32, _kill_switch: ContractAddress, _initial_owner: ContractAddress) {
-        self.ownable.initializer(_initial_owner);
-        self.counter.write(_counter);
-        self.kill_switch.write(_kill_switch);
+    fn constructor(ref self: ContractState, counter: u32, kill_switch: ContractAddress, initial_owner: ContractAddress) {
+        self.ownable.initializer(initial_owner);
+        self.counter.write(counter);
+        self.kill_switch.write(kill_switch);
     }
 
     #[abi(embed_v0)]
