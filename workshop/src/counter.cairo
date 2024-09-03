@@ -7,9 +7,24 @@ trait ICounter<TContractState> {
 
 #[starknet::contract]
 pub mod Counter {
-    #[storage]
+    use core::starknet::event::EventEmitter;
+#[storage]
     struct Storage {
         counter: u32
+    }
+
+    // this event will emit whenever the state variable counter increases
+    #[derive(Copy, Drop, Debug, PartialEq, starknet::Event)]
+    struct CounterIncreased {
+       #[key]
+       pub value: u32
+    }
+
+    // event enum 
+    #[event]
+    #[derive(Copy, Drop, Debug, PartialEq, starknet::Event)]
+    pub enum Event {
+        CounterIncreased: CounterIncreased
     }
 
     #[constructor]
@@ -25,6 +40,7 @@ pub mod Counter {
 
         fn increase_counter(ref self: ContractState, _value: u32) {
             self.counter.write(_value);
+            self.emit(Event::CounterIncreased(CounterIncreased{value: _value}));
         }
     }
 }
