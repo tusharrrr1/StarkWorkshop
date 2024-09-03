@@ -6,7 +6,8 @@ trait ICounter<TContractState> {
 
 #[starknet::contract]
 pub mod Counter {
-    use core::starknet::event::EventEmitter;
+    use openzeppelin::access::ownable::ownable::OwnableComponent::InternalTrait;
+use core::starknet::event::EventEmitter;
     use starknet::{get_caller_address, ContractAddress};
     use kill_switch::{IKillSwitchDispatcher, IKillSwitchDispatcherTrait};
     use openzeppelin::access::ownable::OwnableComponent;
@@ -42,7 +43,8 @@ pub mod Counter {
     }
 
     #[constructor]
-    fn constructor(ref self: ContractState, _counter: u32, _kill_switch: ContractAddress) {
+    fn constructor(ref self: ContractState, _counter: u32, _kill_switch: ContractAddress, _initial_owner: ContractAddress) {
+        self.ownable.initializer(_initial_owner);
         self.counter.write(_counter);
         self.kill_switch.write(_kill_switch);
     }
