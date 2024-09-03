@@ -56,6 +56,7 @@ use core::starknet::event::EventEmitter;
         }
 
         fn increase_counter(ref self: ContractState, _value: u32) {
+            self.ownable.assert_only_owner();
             let status: bool = IKillSwitchDispatcher {contract_address: self.kill_switch.read()}.is_active();
             assert!(status == true, "Kill Switch is active");
             self.counter.write(_value);
